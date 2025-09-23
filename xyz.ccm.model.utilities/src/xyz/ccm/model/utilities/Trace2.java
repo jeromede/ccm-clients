@@ -149,8 +149,8 @@ public abstract class Trace2 {
 			trace("\t\tmodified", v.getModified().toInstant().toString());
 			trace("\t\tmodified", v.getModified().toInstant().toString());
 			trace("\t\tmodified by", (null == v.getModifier()) ? "" : v.getModifier().getUserId());
-			trace("\t\tpriority id", v.getPriority());
-			trace("\t\tseverity", v.getSeverity());
+			trace("\t\tpriority ", v.getPriority() + " (" + p.getLiteralName(v.getPriorityProperty(), v.getPriority()) + ")");
+			trace("\t\tseverity ", v.getSeverity() + " (" + p.getLiteralName(v.getSeverityProperty(), v.getSeverity()) + ")");
 			trace("\t\tdue date", (null == v.getDue()) ? "" : v.getDue().toInstant().toString());
 			trace("\t\tduration", "" + v.getDuration());
 			trace("\t\tdescription", v.getDescription());
@@ -162,9 +162,8 @@ public abstract class Trace2 {
 			trace("\t\tother values");
 			for (Value val : v.getValues()) {
 				if (val.getAttribute().isEnum()) {
-					trace("\t\t\t" + val.getAttribute().getName() + ": "
-							+ ((Literal) val.getValue()).getSourceId() + "::" + val.getAttribute().getType() + " ("
-							+ ((Literal) val.getValue()).getName() + ")");
+					trace("\t\t\t" + val.getAttribute().getName() + ": " + ((Literal) val.getValue()).getSourceId()
+							+ "::" + val.getAttribute().getType() + " (" + ((Literal) val.getValue()).getName() + ")");
 				} else {
 					trace("\t\t\t" + val.getAttribute().getName() + ": " + val.getAttribute().getSourceId() + "::"
 							+ val.getAttribute().getType() + " " + val.getValue().toString());

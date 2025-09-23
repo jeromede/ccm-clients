@@ -77,6 +77,7 @@ import xyz.ccm.model.Project;
 import xyz.ccm.model.Task;
 import xyz.ccm.model.TaskVersion;
 import xyz.ccm.model.Value;
+import xyz.ccm.text.Text;
 
 public class WorkItemHelper {
 
@@ -271,7 +272,7 @@ public class WorkItemHelper {
 		}
 		monitor.out("\t\t\towner read");
 		monitor.out("\t\t\t\tTYPE: " + IWorkItem.OWNER_PROPERTY);
-		
+
 		IContributor resolvedBy;
 		try {
 			resolvedBy = (IContributor) repo.itemManager().fetchCompleteItem((IContributorHandle) w.getResolver(),
@@ -291,6 +292,9 @@ public class WorkItemHelper {
 		//
 		// TaskVersion
 		//
+		Text priorityProperty = p.saver().get(IWorkItem.PRIORITY_PROPERTY);
+		Text severityProperty = p.saver().get(IWorkItem.SEVERITY_PROPERTY);
+
 		TaskVersion version = new TaskVersion(//
 				w.getItemId().getUuidValue(), //
 				task, //
@@ -301,7 +305,9 @@ public class WorkItemHelper {
 				((null == summary) ? null : p.saver().get(summary.getXMLText())), //
 				((null == description) ? null : p.saver().get(description.getXMLText())), //
 				((null == priority) ? null : p.saver().get(priority.getStringIdentifier())), //
+				priorityProperty, //
 				((null == severity) ? null : p.saver().get(severity.getStringIdentifier())), //
+				severityProperty, //
 				tags, //
 				w.getDueDate(), //
 				w.getDuration(), //

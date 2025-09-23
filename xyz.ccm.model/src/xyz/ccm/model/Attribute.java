@@ -91,8 +91,8 @@ public class Attribute extends Item implements Serializable {
 		return this.literals.values();
 	}
 
-	public Literal getLiteral(String name) {
-		return this.literals.get(name);
+	public Literal getLiteral(String id) {
+		return this.literals.get(id);
 	}
 
 	public Literal getNullLiteral() {

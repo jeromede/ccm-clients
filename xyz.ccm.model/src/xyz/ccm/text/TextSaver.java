@@ -33,14 +33,13 @@ public class TextSaver implements Serializable {
 
 	public Text get(String s) {
 		Integer i = indexes.get(s);
-		if (null == i) {
-			Text txt = new Text(s);
-			i = txt.index();
-			values.put(i, txt);
-			indexes.put(txt.value(), i);
-			return txt;
-		}
-		return values.get(i);
+		if (null != i)
+			return values.get(i);
+		Text txt = new Text(s);
+		i = txt.index();
+		values.put(i, txt);
+		indexes.put(txt.value(), i);
+		return txt;
 	}
 
 }

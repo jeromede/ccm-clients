@@ -200,6 +200,14 @@ public class Project extends Item implements Serializable {
 		return attributes.get(id);
 	}
 
+	public String getLiteralName(String attributeId, String literalId) {
+		Attribute a = attributes.get(attributeId);
+		if (null != a) {
+			return a.getLiteral(literalId).getName();
+		}
+		return null;
+	}
+
 	public Collection<Attribute> getAttributes() {
 		return attributes.values();
 	}
