@@ -42,7 +42,7 @@ public class ReadIt {
 		IAuditableClient auditableClient = (IAuditableClient) repo.getClientLibrary(IAuditableClient.class);
 		String result;
 
-		result = AttributeHelper.readAttributes(repo, pa, complete, wiClient, wiCommon, itemManager, monitor, p, dir);
+		result = AttributeHelper.readAttributes(pa, wiClient, wiCommon, itemManager, monitor, p);
 		if (null != result)
 			return result;
 		result = UserHelper.readMembers(repo, pa, monitor, p);

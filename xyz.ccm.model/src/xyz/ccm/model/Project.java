@@ -185,9 +185,14 @@ public class Project extends Item implements Serializable {
 		return taskTypes.values();
 	}
 
-	public Attribute putAttribute(TaskType taskType, Attribute attribute) {
-		taskType.putAttribute(attribute);
+	public Attribute putAttribute(Attribute attribute) {
 		attributes.put(attribute.getSourceId(), attribute);
+		return attribute;
+	}
+
+	public Attribute putAttribute(TaskType taskType, Attribute attribute) {
+		attributes.putIfAbsent(attribute.getSourceId(), attribute);
+		taskType.putAttribute(attribute);
 		return attribute;
 	}
 

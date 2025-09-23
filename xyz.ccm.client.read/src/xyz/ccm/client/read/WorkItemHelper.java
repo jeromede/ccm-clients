@@ -218,24 +218,35 @@ public class WorkItemHelper {
 		monitor.out("\t\tNow reading work item version for " + w.getWorkItemType() + " " + w.getId() + " ...");
 
 		String result;
+
 		XMLString summary = w.getHTMLSummary();
 		monitor.out("\t\t\tsummary read");
+		monitor.out("\t\t\t\txml text: " + summary.getXMLText());
+		monitor.out("\t\t\t\tTYPE: " + IWorkItem.SUMMARY_PROPERTY);
+
 		XMLString description = w.getHTMLDescription();
 		monitor.out("\t\t\tdescription read");
+		monitor.out("\t\t\t\txml text: " + description.getXMLText());
+		monitor.out("\t\t\t\tTYPE: " + IWorkItem.DESCRIPTION_PROPERTY);
+
 		Identifier<IPriority> priority = w.getPriority();
 		monitor.out("\t\t\tpriority read");
-		monitor.out("\t\t\t\tscoped identifier: " + priority.getScopedIdentifier());
 		monitor.out("\t\t\t\tstring identifier: " + priority.getStringIdentifier());
-		monitor.out("\t\t\t\t: " + IWorkItem.PRIORITY_PROPERTY);
+		monitor.out("\t\t\t\tTYPE: " + IWorkItem.PRIORITY_PROPERTY);
 
 		Identifier<ISeverity> severity = w.getSeverity();
 		monitor.out("\t\t\tseverity read");
+		monitor.out("\t\t\t\tstring identifier: " + severity.getStringIdentifier());
+		monitor.out("\t\t\t\tTYPE: " + IWorkItem.SEVERITY_PROPERTY);
+
 		List<String> tags2 = w.getTags2();
 		List<String> tags = new ArrayList<String>();
 		for (String t : tags2) {
 			tags.add(t);
 		}
 		monitor.out("\t\t\ttags read");
+		monitor.out("\t\t\t\tTYPE: " + IWorkItem.TAGS_PROPERTY);
+
 		ICategory category;
 		try {
 			category = (ICategory) itemManager.fetchCompleteItem(w.getCategory(), IItemManager.DEFAULT, monitor);
@@ -244,8 +255,12 @@ public class WorkItemHelper {
 			return "can't fetch category from handle";
 		}
 		monitor.out("\t\t\tcategory read");
+		monitor.out("\t\t\t\tTYPE: " + IWorkItem.CATEGORY_PROPERTY);
+
 		IIterationHandle target = w.getTarget();
 		monitor.out("\t\t\ttarget iteration read");
+		monitor.out("\t\t\t\tTYPE: " + IWorkItem.TARGET_PROPERTY);
+
 		IContributor ownedBy;
 		try {
 			ownedBy = (IContributor) repo.itemManager().fetchCompleteItem((IContributorHandle) w.getOwner(),
@@ -255,6 +270,8 @@ public class WorkItemHelper {
 			return "problem retrieving owner for workitem " + task.getId();
 		}
 		monitor.out("\t\t\towner read");
+		monitor.out("\t\t\t\tTYPE: " + IWorkItem.OWNER_PROPERTY);
+		
 		IContributor resolvedBy;
 		try {
 			resolvedBy = (IContributor) repo.itemManager().fetchCompleteItem((IContributorHandle) w.getResolver(),
@@ -269,6 +286,8 @@ public class WorkItemHelper {
 			resolution2 = resolution2Id.getStringIdentifier();
 		}
 		monitor.out("\t\t\tresolution read");
+		monitor.out("\t\t\t\tTYPE: " + IWorkItem.RESOLUTION_PROPERTY);
+
 		//
 		// TaskVersion
 		//

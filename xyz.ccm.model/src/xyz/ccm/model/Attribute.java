@@ -25,6 +25,7 @@ public class Attribute extends Item implements Serializable {
 
 	private static final long serialVersionUID = 3735492808454873371L;
 
+	private boolean builtIn;
 	private String name;
 	private String type;
 	private Map<String, Literal> literals = null;
@@ -39,20 +40,24 @@ public class Attribute extends Item implements Serializable {
 
 	public Attribute(//
 			String id, //
+			boolean builtIn, //
 			String name, //
 			String type) {
 		super(id);
+		this.builtIn = builtIn;
 		this.name = name;
 		this.type = type;
 	}
 
 	public Attribute(//
 			String id, //
+			boolean builtIn, //
 			String name, //
 			String type, //
 			Collection<Literal> literals, //
 			Literal nullLiteral) {
 		super(id);
+		this.builtIn = builtIn;
 		this.name = name;
 		this.type = type;
 		this.literals = new HashMap<String, Literal>();
@@ -62,12 +67,20 @@ public class Attribute extends Item implements Serializable {
 		this.nullLiteral = nullLiteral;
 	}
 
+	public String getName() {
+		return this.name;
+	}
+
 	public String getType() {
 		return this.type;
 	}
 
-	public String getName() {
-		return this.name;
+	public boolean isBuiltIn() {
+		return this.builtIn;
+	}
+
+	public boolean isCustom() {
+		return !this.builtIn;
 	}
 
 	public boolean isEnum() {
