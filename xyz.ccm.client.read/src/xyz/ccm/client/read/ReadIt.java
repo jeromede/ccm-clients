@@ -33,8 +33,8 @@ import xyz.ccm.model.Task;
 
 public class ReadIt {
 
-	public static String execute(ITeamRepository repo, IProjectArea pa, boolean complete, ProgressMonitor monitor, Project p, String dir)
-			throws TeamRepositoryException, IOException {
+	public static String execute(ITeamRepository repo, IProjectArea pa, boolean complete, ProgressMonitor monitor,
+			Project p, String dir) throws TeamRepositoryException, IOException {
 
 		IItemManager itemManager = repo.itemManager();
 		IWorkItemClient wiClient = (IWorkItemClient) repo.getClientLibrary(IWorkItemClient.class);
@@ -42,6 +42,9 @@ public class ReadIt {
 		IAuditableClient auditableClient = (IAuditableClient) repo.getClientLibrary(IAuditableClient.class);
 		String result;
 
+		result = AttributeHelper.readAttributes(repo, pa, complete, wiClient, wiCommon, itemManager, monitor, p, dir);
+		if (null != result)
+			return result;
 		result = UserHelper.readMembers(repo, pa, monitor, p);
 		if (null != result)
 			return result;

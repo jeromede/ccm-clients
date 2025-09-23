@@ -52,18 +52,36 @@ public class ProgressMonitor implements IProgressMonitor {
 		System.out.println();
 	}
 
-	public void out(String message) {
-		if (null != message && ! "".equals(message))
+	public String out(String message) {
+		if (null != message && !"".equals(message)) {
 			System.out.println(message);
+		}
+		return message;
+	}
+
+	public String out(String title, String message) {
+		if (null != message && !"".equals(message)) {
+			System.out.println(title + ": " + message);
+		}
+		return message;
 	}
 
 	public void err() {
 		System.err.println();
 	}
 
-	public void err(String message) {
-		if (null != message&& ! "".equals(message))
+	public String err(String message) {
+		if (null != message && !"".equals(message)) {
 			System.err.println(message);
+		}
+		return message;
+	}
+
+	public String err(String title, String message) {
+		if (null != message && !"".equals(message)) {
+			System.err.println(title + ": " + message);
+		}
+		return message;
 	}
 
 }

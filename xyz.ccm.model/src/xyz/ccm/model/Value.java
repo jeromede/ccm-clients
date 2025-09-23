@@ -27,7 +27,7 @@ public class Value extends Item implements Serializable {
 
 	public String toString() {
 		return super.toString()//
-				+ Item.SEP + Item.trace_object("value", value);
+				+ Item.SEP + Item.trace_object("value", this.getValue());
 	}
 
 	public Value(//

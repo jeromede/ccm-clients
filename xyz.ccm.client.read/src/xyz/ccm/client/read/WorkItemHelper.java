@@ -216,6 +216,7 @@ public class WorkItemHelper {
 			Project p, Task task, String dir) {
 
 		monitor.out("\t\tNow reading work item version for " + w.getWorkItemType() + " " + w.getId() + " ...");
+
 		String result;
 		XMLString summary = w.getHTMLSummary();
 		monitor.out("\t\t\tsummary read");
@@ -223,6 +224,10 @@ public class WorkItemHelper {
 		monitor.out("\t\t\tdescription read");
 		Identifier<IPriority> priority = w.getPriority();
 		monitor.out("\t\t\tpriority read");
+		monitor.out("\t\t\t\tscoped identifier: " + priority.getScopedIdentifier());
+		monitor.out("\t\t\t\tstring identifier: " + priority.getStringIdentifier());
+		monitor.out("\t\t\t\t: " + IWorkItem.PRIORITY_PROPERTY);
+
 		Identifier<ISeverity> severity = w.getSeverity();
 		monitor.out("\t\t\tseverity read");
 		List<String> tags2 = w.getTags2();

@@ -54,7 +54,7 @@ public class WorkItemTypeHelper {
 			for (IWorkItemType t : allWorkItemTypes) {
 				tt = new TaskType(t.getIdentifier(), t.getDisplayName());
 				p.putTaskType(tt);
-				monitor.out("\t" + t.getDisplayName() + " (" + t.getIdentifier() + ')');
+				monitor.out("\t" + t.getIdentifier() + " (" + t.getDisplayName() + ')');
 				result = addAttributes(repo, pa, wiClient, wiCommon, monitor, p, t, tt);
 				if (null != result)
 					return result;
@@ -71,7 +71,7 @@ public class WorkItemTypeHelper {
 			IWorkItemCommon wiCommon, ProgressMonitor monitor, Project p, IWorkItemType t, TaskType tt) {
 
 		String result;
-		monitor.out("\t\tcustom attributes for " + t.getIdentifier() + " (" + t.getDisplayName() + "):");
+		monitor.out("\t\tcustom attributes:");
 		List<IAttributeHandle> customAttributeHandles = t.getCustomAttributes();
 		IFetchResult custom = null;
 		try {
@@ -95,6 +95,7 @@ public class WorkItemTypeHelper {
 	private static String addAttribute(IWorkItemClient wiClient, ProgressMonitor monitor, Project p, TaskType tt,
 			IAttribute attribute) {
 
+		monitor.out("\t\t\t" + attribute.getAttributeType() + " (" + attribute.getDisplayName() + ")");
 		Attribute a;
 		Literal lit;
 		Collection<Literal> lits = null;
@@ -118,7 +119,7 @@ public class WorkItemTypeHelper {
 						monitor.out("\t\t\t\tliteral: " + literal.getIdentifier2().getStringIdentifier() + " ("
 								+ literal.getName() + ")");
 						lit = new Literal(literal.getIdentifier2().getStringIdentifier(), literal.getName());
-						lit.setExternalObject(literal.getName(), lit); // TODO: itself??? Couldn't it be null instead?
+						lit.setExternalObject(literal.getName(), lit);
 						lits.add(lit);
 					}
 				}
@@ -127,7 +128,6 @@ public class WorkItemTypeHelper {
 				return "error while reading enumeration";
 			}
 		}
-		monitor.out("attribute.getDisplayName(): " + attribute.getDisplayName());
 		if (null == lits) {
 			a = new Attribute(attribute.getIdentifier(), attribute.getDisplayName(), attribute.getAttributeType());
 		} else {

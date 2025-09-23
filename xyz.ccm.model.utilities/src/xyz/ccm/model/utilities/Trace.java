@@ -37,6 +37,8 @@ public abstract class Trace {
 			return;
 		}
 		p = Project.deserialize(ser);
+		System.out.println("--------START DUMPING " + ser);
 		p.dump(System.out);
+		System.out.println("--------DUMPING " + ser + " ENDED.");
 	}
 }

@@ -80,7 +80,9 @@ public abstract class Trace2 {
 		}
 		p = Project.deserialize(ser);
 		out = System.out;
+		trace("--------START DUMPING " + ser);
 		dump(p);
+		trace("--------DUMPING " + ser + " ENDED.");
 	}
 
 	private static void dump(Project p) {
@@ -114,11 +116,11 @@ public abstract class Trace2 {
 	private static void dump_tasks(Project p) {
 		for (Task t : p.getTasks()) {
 			trace("\ntask", t.getId());
-			dump_task(t);
+			dump_task(t, p);
 		}
 	}
 
-	private static void dump_task(Task t) {
+	private static void dump_task(Task t, Project p) {
 		trace("\tcreator", id(t.getCreator()));
 		trace("\tcreation", t.getCreation().toInstant().toString());
 		for (Link l : t.getLinks()) {
@@ -147,7 +149,7 @@ public abstract class Trace2 {
 			trace("\t\tmodified", v.getModified().toInstant().toString());
 			trace("\t\tmodified", v.getModified().toInstant().toString());
 			trace("\t\tmodified by", (null == v.getModifier()) ? "" : v.getModifier().getUserId());
-			trace("\t\tpriority", v.getPriority());
+			trace("\t\tpriority id", v.getPriority());
 			trace("\t\tseverity", v.getSeverity());
 			trace("\t\tdue date", (null == v.getDue()) ? "" : v.getDue().toInstant().toString());
 			trace("\t\tduration", "" + v.getDuration());

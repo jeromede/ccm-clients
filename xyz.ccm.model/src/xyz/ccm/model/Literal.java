@@ -26,7 +26,7 @@ public class Literal extends Item implements Serializable {
 
 	public String toString() {
 		return super.toString() + //
-				Item.SEP + Item.trace("name", name);
+				Item.SEP + Item.trace("identifier (display name)", this.getExternalId() + " (" + this.getName() + ")");
 	}
 
 	public Literal(//
@@ -34,9 +34,9 @@ public class Literal extends Item implements Serializable {
 		super(id);
 		this.name = name;
 	}
-	
-	public String getName(){
-		return name;
+
+	public String getName() {
+		return this.name;
 	}
 
 }

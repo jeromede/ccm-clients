@@ -32,8 +32,9 @@ public class Attribute extends Item implements Serializable {
 
 	public String toString() {
 		return super.toString()//
-				+ Item.SEP + Item.trace("type", this.getType())//
-				+ Item.SEP + Item.trace("enum", this.isEnum());
+				+ Item.SEP + Item.trace("type", this.getType()) //
+				+ Item.SEP + Item.trace("enum", this.isEnum()) //
+				+ ((null == this.literals) ? "" : Item.SEP + Item.trace_list("literals", this.literals));
 	}
 
 	public Attribute(//
