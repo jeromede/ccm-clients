@@ -57,6 +57,7 @@ import com.ibm.team.workitem.common.model.ILiteral;
 import com.ibm.team.workitem.common.model.IPriority;
 import com.ibm.team.workitem.common.model.IResolution;
 import com.ibm.team.workitem.common.model.ISeverity;
+import com.ibm.team.workitem.common.model.IState;
 import com.ibm.team.workitem.common.model.ISubscriptions;
 import com.ibm.team.workitem.common.model.IWorkItem;
 import com.ibm.team.workitem.common.model.IWorkItemHandle;
@@ -64,6 +65,7 @@ import com.ibm.team.workitem.common.model.IWorkItemReferences;
 import com.ibm.team.workitem.common.model.Identifier;
 import com.ibm.team.workitem.common.query.IQueryResult;
 import com.ibm.team.workitem.common.query.IResolvedResult;
+import com.ibm.team.workitem.common.workflow.IWorkflowInfo;
 
 import xyz.ccm.client.utils.ProgressMonitor;
 import xyz.ccm.model.Approval;
@@ -77,7 +79,6 @@ import xyz.ccm.model.Project;
 import xyz.ccm.model.Task;
 import xyz.ccm.model.TaskVersion;
 import xyz.ccm.model.Value;
-import xyz.ccm.text.Text;
 
 public class WorkItemHelper {
 
@@ -117,7 +118,7 @@ public class WorkItemHelper {
 
 	static String readWorkItem(IWorkItem wi, ITeamRepository repo, IProjectArea pa, boolean complete,
 			IWorkItemClient wiClient, IWorkItemCommon wiCommon, IItemManager itemManager, ProgressMonitor monitor,
-			Project p, String dir) {
+			Project p, String dir) throws TeamRepositoryException {
 
 		String result;
 		monitor.out("\tNow reading work item " + wi.getId());
@@ -162,7 +163,7 @@ public class WorkItemHelper {
 
 	private static String readWorkItemVersions(IWorkItem wi, ITeamRepository repo, IProjectArea pa, boolean complete,
 			IWorkItemClient wiClient, IWorkItemCommon wiCommon, IItemManager itemManager, ProgressMonitor monitor,
-			Project p, Task task, String dir) {
+			Project p, Task task, String dir) throws TeamRepositoryException {
 
 		String result = null;
 		List<IWorkItem> workItems;
@@ -214,11 +215,23 @@ public class WorkItemHelper {
 
 	private static String readWorkItemVersion(IWorkItem w, ITeamRepository repo, IProjectArea pa, boolean complete,
 			IWorkItemClient wiClient, IWorkItemCommon wiCommon, IItemManager itemManager, ProgressMonitor monitor,
-			Project p, Task task, String dir) {
+			Project p, Task task, String dir) throws TeamRepositoryException {
 
 		monitor.out("\t\tNow reading work item version for " + w.getWorkItemType() + " " + w.getId() + " ...");
 
 		String result;
+
+		// State
+		Identifier<IState> state = w.getState2();
+		String stateId = w.getState2().getStringIdentifier();
+		IWorkflowInfo workflow = wiCommon.findWorkflowInfo(w, monitor);
+		String stateName = workflow.getStateName(state);
+		if (stateName == null) {
+			return "state name is null (id: " + stateId;
+		}
+		monitor.out("\t\t\tstate read");
+		monitor.out("\t\t\t\tstate id: " + stateId);
+		monitor.out("\t\t\t\tstate name: " + stateName);
 
 		XMLString summary = w.getHTMLSummary();
 		monitor.out("\t\t\tsummary read");
@@ -292,22 +305,19 @@ public class WorkItemHelper {
 		//
 		// TaskVersion
 		//
-		Text priorityProperty = p.saver().get(IWorkItem.PRIORITY_PROPERTY);
-		Text severityProperty = p.saver().get(IWorkItem.SEVERITY_PROPERTY);
-
 		TaskVersion version = new TaskVersion(//
 				w.getItemId().getUuidValue(), //
 				task, //
 				p.getTaskType(w.getWorkItemType()), //
-				w.getState2().getStringIdentifier(), //
+				p.saver().get(stateId), //
 				p.getMember(w.getModifiedBy().getItemId().getUuidValue()), //
 				w.modified(), //
 				((null == summary) ? null : p.saver().get(summary.getXMLText())), //
 				((null == description) ? null : p.saver().get(description.getXMLText())), //
 				((null == priority) ? null : p.saver().get(priority.getStringIdentifier())), //
-				priorityProperty, //
+				p.saver().get(IWorkItem.PRIORITY_PROPERTY), //
 				((null == severity) ? null : p.saver().get(severity.getStringIdentifier())), //
-				severityProperty, //
+				p.saver().get(IWorkItem.SEVERITY_PROPERTY), //
 				tags, //
 				w.getDueDate(), //
 				w.getDuration(), //

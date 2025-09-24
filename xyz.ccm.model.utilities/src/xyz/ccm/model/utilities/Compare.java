@@ -224,7 +224,7 @@ public abstract class Compare {
 	}
 
 	private static String state(TaskVersion version) {
-		String state = version.getState();
+		String state = version.getStateId();
 		String type = version.getType().getSourceId();
 		if (1 == state.length()) {
 			if (type.equals("defect")) {

@@ -184,7 +184,7 @@ public class WorkItemBuilder {
 			}
 			for (TaskVersion v : versions) {
 				type = (IWorkItemType) v.getType().getExternalObject();
-				state = v.getState();
+				state = v.getStateId();
 
 				if (null != previousType) {
 					if (!type.getIdentifier().equals(previousType.getIdentifier())) {
@@ -328,7 +328,7 @@ public class WorkItemBuilder {
 		wi = wc.getWorkItem();
 		boolean retry;
 		try {
-			state = v.getState();
+			state = v.getStateId();
 
 			/*
 			 * *********************************************************

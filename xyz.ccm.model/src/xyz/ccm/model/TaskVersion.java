@@ -31,7 +31,7 @@ public class TaskVersion extends Item implements Serializable {
 
 	private Task task;
 	private TaskType type;
-	private String state;
+	private Text stateId;
 	private Member modifier;
 	private Date modified;
 	private Text summary;
@@ -56,7 +56,7 @@ public class TaskVersion extends Item implements Serializable {
 	public String toString() {
 		return super.toString()//
 				+ Item.SEP + Item.trace("type", type) //
-				+ Item.SEP + Item.trace("state", state) //
+				+ Item.SEP + Item.trace("state id", stateId.value()) //
 				+ Item.SEP + Item.trace_simple("modifier", (null == modifier) ? null : modifier.getUserId()) //
 				+ Item.SEP + Item.trace("modified", modified) //
 				+ Item.SEP + Item.trace("summary", summary.value()) //
@@ -83,7 +83,7 @@ public class TaskVersion extends Item implements Serializable {
 			String sourceId, //
 			Task task, //
 			TaskType type, //
-			String state, //
+			Text stateId, //
 			Member modifier, //
 			Date modified, //
 			Text summary, //
@@ -104,7 +104,7 @@ public class TaskVersion extends Item implements Serializable {
 		super(sourceId);
 		this.task = task;
 		this.type = type;
-		this.state = state;
+		this.stateId = stateId;
 		this.modifier = modifier;
 		this.modified = modified;
 		this.summary = summary;
@@ -125,7 +125,7 @@ public class TaskVersion extends Item implements Serializable {
 	}
 
 	public TaskVersion clone() {
-		return new TaskVersion(this.getSourceId() + "1", this.task, this.type, this.state, this.modifier, this.modified,
+		return new TaskVersion(this.getSourceId() + "1", this.task, this.type, this.stateId, this.modifier, this.modified,
 				this.summary, this.description, this.priority, this.priorityProperty, this.severity,
 				this.severityProperty, (List<String>) this.tags, this.due, this.duration, this.category, this.target,
 				this.ownedBy, this.resolvedBy, this.resolution, this.resolution2);
@@ -145,8 +145,8 @@ public class TaskVersion extends Item implements Serializable {
 		return this.type;
 	}
 
-	public String getState() {
-		return this.state;
+	public String getStateId() {
+		return this.stateId.value();
 	}
 
 	public Member getModifier() {
