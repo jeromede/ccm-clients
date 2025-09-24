@@ -32,6 +32,7 @@ public class TaskVersion extends Item implements Serializable {
 	private Task task;
 	private TaskType type;
 	private Text stateId;
+	private Text stateName;
 	private Member modifier;
 	private Date modified;
 	private Text summary;
@@ -57,6 +58,7 @@ public class TaskVersion extends Item implements Serializable {
 		return super.toString()//
 				+ Item.SEP + Item.trace("type", type) //
 				+ Item.SEP + Item.trace("state id", stateId.value()) //
+				+ Item.SEP + Item.trace("state name", stateName.value()) //
 				+ Item.SEP + Item.trace_simple("modifier", (null == modifier) ? null : modifier.getUserId()) //
 				+ Item.SEP + Item.trace("modified", modified) //
 				+ Item.SEP + Item.trace("summary", summary.value()) //
@@ -84,6 +86,7 @@ public class TaskVersion extends Item implements Serializable {
 			Task task, //
 			TaskType type, //
 			Text stateId, //
+			Text stateName, //
 			Member modifier, //
 			Date modified, //
 			Text summary, //
@@ -105,6 +108,7 @@ public class TaskVersion extends Item implements Serializable {
 		this.task = task;
 		this.type = type;
 		this.stateId = stateId;
+		this.stateName = stateName;
 		this.modifier = modifier;
 		this.modified = modified;
 		this.summary = summary;
@@ -125,10 +129,10 @@ public class TaskVersion extends Item implements Serializable {
 	}
 
 	public TaskVersion clone() {
-		return new TaskVersion(this.getSourceId() + "1", this.task, this.type, this.stateId, this.modifier, this.modified,
-				this.summary, this.description, this.priority, this.priorityProperty, this.severity,
-				this.severityProperty, (List<String>) this.tags, this.due, this.duration, this.category, this.target,
-				this.ownedBy, this.resolvedBy, this.resolution, this.resolution2);
+		return new TaskVersion(this.getSourceId() + "1", this.task, this.type, this.stateId, this.stateName,
+				this.modifier, this.modified, this.summary, this.description, this.priority, this.priorityProperty,
+				this.severity, this.severityProperty, (List<String>) this.tags, this.due, this.duration, this.category,
+				this.target, this.ownedBy, this.resolvedBy, this.resolution, this.resolution2);
 	}
 
 	public TaskVersion change(Project p, TaskType newType) {
@@ -147,6 +151,10 @@ public class TaskVersion extends Item implements Serializable {
 
 	public String getStateId() {
 		return this.stateId.value();
+	}
+
+	public String getStateName() {
+		return this.stateName.value();
 	}
 
 	public Member getModifier() {

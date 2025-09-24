@@ -310,6 +310,7 @@ public class WorkItemHelper {
 				task, //
 				p.getTaskType(w.getWorkItemType()), //
 				p.saver().get(stateId), //
+				p.saver().get(stateName), //
 				p.getMember(w.getModifiedBy().getItemId().getUuidValue()), //
 				w.modified(), //
 				((null == summary) ? null : p.saver().get(summary.getXMLText())), //
