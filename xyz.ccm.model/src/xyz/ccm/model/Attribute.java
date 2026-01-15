@@ -1,0 +1,102 @@
+/*
+ * Copyright (c) 2017..2026 Jérôme Desquilbet <jeromede@fr.ibm.com>
+ *
+ * Permission to use, copy, modify, and distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+ * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
+
+package xyz.ccm.model;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Attribute extends Item implements Serializable {
+
+	private static final long serialVersionUID = 3735492808454873371L;
+
+	private boolean builtIn;
+	private String name;
+	private String type;
+	private Map<String, Literal> literals = null;
+	private Literal nullLiteral;
+
+	public String toString() {
+		return super.toString()//
+				+ Item.SEP + Item.trace("type", this.getType()) //
+				+ Item.SEP + Item.trace("enum", this.isEnum()) //
+				+ ((null == this.literals) ? "" : Item.SEP + Item.trace_list("literals", this.literals));
+	}
+
+	public Attribute(//
+			String id, //
+			boolean builtIn, //
+			String name, //
+			String type) {
+		super(id);
+		this.builtIn = builtIn;
+		this.name = name;
+		this.type = type;
+	}
+
+	public Attribute(//
+			String id, //
+			boolean builtIn, //
+			String name, //
+			String type, //
+			Collection<Literal> literals, //
+			Literal nullLiteral) {
+		super(id);
+		this.builtIn = builtIn;
+		this.name = name;
+		this.type = type;
+		this.literals = new HashMap<String, Literal>();
+		for (Literal l : literals) {
+			this.literals.put(l.getSourceId(), l);
+		}
+		this.nullLiteral = nullLiteral;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public String getType() {
+		return this.type;
+	}
+
+	public boolean isBuiltIn() {
+		return this.builtIn;
+	}
+
+	public boolean isCustom() {
+		return !this.builtIn;
+	}
+
+	public boolean isEnum() {
+		return null != this.literals;
+	}
+
+	public Collection<Literal> getLiterals() {
+		return this.literals.values();
+	}
+
+	public Literal getLiteral(String id) {
+		return this.literals.get(id);
+	}
+
+	public Literal getNullLiteral() {
+		return this.nullLiteral;
+	}
+
+}
